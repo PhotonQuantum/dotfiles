@@ -206,6 +206,9 @@ assign [class="TelegramDesktop"] 4
 # Floating Windows
 for_window [class="^cv$"] floating enable
 
+# dunst
+exec --no-startup-id dunst
+
 # Chromium
 exec --no-startup-id chromium
 
