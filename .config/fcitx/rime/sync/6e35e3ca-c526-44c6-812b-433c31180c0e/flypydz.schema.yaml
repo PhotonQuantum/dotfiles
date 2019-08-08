@@ -1,0 +1,13 @@
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: flypydz
+  name: 小鶴形
+  version: "2018.9.18.0"
+  author:
+    - xhup b 鶴
+    - Rime schma by Zhaosheng Pan <zhaosheng.pan@sololand.moe>
+  description: |
+    小鶴雙拼音方案
+    四键自动上

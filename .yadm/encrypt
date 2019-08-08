@@ -1,0 +1,13 @@
+.ssh/*
+.config/hub
+.config/Yubico/u2f_keys
+.config/onedrive/refresh_token
+.config/BaiduPCS-Go/pcs_command_history.txt
+.zsh_history
+bin/upss
+bin/upclash
+.config/BaiduPCS-Go/pcs_config.json
+.config/clash/config.yml
+bin/zx300
+bin/moondrop
+bin/touchpad

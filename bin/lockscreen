@@ -1,0 +1,5 @@
+#!/bin/sh
+# sudo yapm cool > /dev/null
+# boincmode auto
+# boinccpu 100.0 100.0
+betterlockscreen -l blur

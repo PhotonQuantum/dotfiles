@@ -1,0 +1,9 @@
+12-deploy-lock.sh
+11-deploy-omz.sh
+02-enable-services.sh
+99-install-pcsc.sh
+00-install-yadm.sh
+20-deploy-yubikey-auth.sh
+01-install-pkgs.sh
+10-deploy-vim.sh
+13-deploy-boinc-group.sh

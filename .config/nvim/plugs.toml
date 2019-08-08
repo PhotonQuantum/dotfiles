@@ -1,0 +1,43 @@
+# [[plugins]]
+# repo = 
+# rev = 
+# build = 
+# rtp = 
+# if = 
+# depends = 
+# frozen = 
+
+[[plugins]]
+repo = 'unblevable/quick-scope'
+
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+merge = 0
+build = './install.sh nightly'
+
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+
+[[plugins]]
+repo = 'PhotonQuantum/vim-airline-themes'
+
+[[plugins]]
+repo = 'joshdick/onedark.vim'
+
+[[plugins]]
+repo = 'jamessan/vim-gnupg'
+
+[[plugins]]
+repo = 'PhotonQuantum/suda.vim'
+
+[[plugins]]
+repo = 'Alexmac22347/vim-orgmode'
+hook_add = '''
+let g:org_agenda_files = ['~/Dropbox/org/Technology.org']
+'''
+
+[[plugins]]
+repo = 'tpope/vim-repeat'
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'

@@ -1,0 +1,21 @@
+{  
+    "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "objc", "objcpp"],
+      "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+      "initializationOptions": {
+         "cache": {
+           "directory": ".cache/ccls"
+         }
+       }
+    }
+    },
+    "python.jediEnabled": false,
+    "python.venvPath": "~/.venv/",
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintArgs": ["-E"],
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": ["--ignore=W2,W3,E5,E401,E3"],
+    "suggest.maxPreviewWidth": 100
+}

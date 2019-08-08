@@ -1,0 +1,29 @@
+#!/usr/bin/python
+from subprocess import run
+import sys
+import json
+
+
+def main():
+    print('\033[92m?\033[0m Master Password: ', end='', flush=True)
+    rtn = run(['bw', 'unlock', '--response'], capture_output=True)
+    auth = json.loads(rtn.stdout)
+    print()
+    if not auth['success']:
+        print("\033[91mInvalid Master Password!\033[0m")
+        sys.exit()
+    print("\033[92mYour vault is unlocked.\033[0m")
+    sess = auth['data']['raw']
+    run(['bw', '--session', sess, 'sync'])
+    is_escape = False
+    while not is_escape:
+        command = input(">> bw ")
+        if command == "exit":
+            is_escape = True
+        else:
+            run(['bw', '--session', sess, '--pretty', *command.split()])
+    run(['bw', 'lock'])
+
+if __name__ == '__main__':
+    main()
+

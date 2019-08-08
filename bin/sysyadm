@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo chown root $(tty)
+GPG_TTY=$(tty) sudo --preserve-env=GPG_TTY yadm -Y /etc/yadm $@
+sudo chown lightquantum $(tty)

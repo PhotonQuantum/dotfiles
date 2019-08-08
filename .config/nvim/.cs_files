@@ -1,0 +1,8 @@
+plugs.toml
+functions.vim
+ginit.vim
+plugs_lazy.toml
+init.vim
+lsp.json
+yapf.conf
+coc-settings.json

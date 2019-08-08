@@ -1,0 +1,19 @@
+[user]
+	name = PhotonQuantum
+	email = cy.n01@outlook.com
+	signingkey = 145D458B467A0318
+[credential]
+	helper = netrc -f ~/.netrc.gpg -v
+[https]
+	proxy = http://127.0.0.1:8888
+[http]
+	proxy = http://127.0.0.1:8888
+[commit]
+	gpgsign = true
+[hub]
+	protocol = https
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process

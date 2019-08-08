@@ -1,0 +1,147 @@
+#!/bin/python
+from blessed import Terminal
+import re
+import socket
+import subprocess
+import time
+
+term = Terminal()
+
+
+def fuo_ask(fuo, cmd):
+    fuo.sendall("".join((cmd, "\n")).encode('utf-8'))
+    b_msg = b''
+    while True:
+        b_msg += fuo.recv(1024)
+        if b_msg[:3].decode("utf-8") == "ACK":
+            if b_msg[4:6].decode("utf-8") == "ok":
+                pack_len = b_msg[7:16].decode("utf-8")
+                pack_len = int(pack_len[:pack_len.find('\n')])
+                break
+    while True:
+        if len(b_msg) == pack_len + 11 + len(str(pack_len)):
+            break
+        b_msg += fuo.recv(1024)
+    return b_msg.decode('utf-8')
+
+
+def re_get_params(src, param):
+    return re.findall("(?<=" + param + ").*", src)
+
+
+def print_now_playing(sock):
+    str_status = fuo_ask(sock, "status")
+    if str_status.find("#") == -1:
+        song_name = "N/A"
+        song_pos = 0
+        song_dur = 10
+        song_lyrics = ""
+    else:
+        song_name = re_get_params(str_status, "#")[0].strip()
+        song_pos = re_get_params(str_status, "position:")[0].strip()
+        song_pos = 0 if song_pos == "None" else float(song_pos)
+        song_dur = re_get_params(str_status, "duration:")[0].strip()
+        song_dur = 1 if song_dur == "None" else float(song_dur)
+        song_lyrics = re_get_params(str_status, "lyric-s:")[0].strip()
+    song_state = re_get_params(str_status, "state:")[0].strip()
+    song_prog = float(song_pos) / song_dur
+    output_msg = ""
+    with term.location(0, 4):
+        if song_state == "playing":
+            state = term.on_bright_green("PLAY")
+        elif song_state == "paused":
+            state = term.on_bright_red("PAUSE")
+        elif song_state == "stopped":
+            state = term.on_bright_red("STOP")
+        output_msg += term.center(term.bold((state + " " + song_name))) + "\n"
+        output_msg += term.center(term.cyan(song_lyrics))
+        output_msg += term.center("[" + "=" * int(song_prog * 60) + " " * int((1 - song_prog) * 60) + "]")
+        print(output_msg)
+
+
+def get_song_list(sock):
+    str_list = fuo_ask(sock, "list")
+    uri_list = re.findall("fuo.\S*", str_list)
+    name_list = re.findall("(?<=# ).*", str_list)
+    return name_list, uri_list
+
+
+def print_song_list(name_list, selitem, page_count):
+    output_msg = ""
+    name_list = ["N/A"] if not name_list else name_list
+    if selitem > len(name_list) - 1:
+        selitem = len(name_list) - 1
+    elif selitem < 0:
+        selitem = 0
+    page = selitem // page_count
+    with term.location(0, 10):
+        for i in range(page * page_count, (page + 1) * page_count):
+            if i < len(name_list):
+                if i == selitem:
+                    output_msg += term.center(
+                        (term.underline_bright_magenta(str(i + 1) + ". " + name_list[i].strip())))
+                else:
+                    output_msg += term.center(str(i + 1) + ". " + name_list[i].strip())
+        print(output_msg + term.clear_eos())
+    return selitem
+
+
+def sync_current_song(reverse, uri_list, fuo_uri):
+    if reverse:
+        return len(uri_list) - uri_list[::-1].index(fuo_uri) - 1
+    else:
+        return uri_list.index(fuo_uri)
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+fuo_handler = None
+try:
+    sock.connect(("127.0.0.1", 23333))
+except ConnectionRefusedError:
+    fuo_handler = subprocess.Popen(["fuo", "-nw"])
+if fuo_handler:
+    while sock.connect_ex(("127.0.0.1", 23333)) != 0:
+        time.sleep(0.5)
+sock.recv(4096)
+print(term.clear())
+selitem = 0
+add_list = False
+with term.hidden_cursor(), term.fullscreen():
+    while True:
+        print_now_playing(sock)
+        name_list, uri_list = get_song_list(sock)
+        selitem = print_song_list(name_list, selitem, 10)
+        with term.cbreak():
+            val = term.inkey(timeout=1)
+            if str(val) != "":
+                if str(val) == "q":
+                    break
+                elif str(val) == " ":
+                    fuo_ask(sock, "toggle")
+                elif str(val) == "j":
+                    selitem += 1
+                elif str(val) == "k":
+                    selitem -= 1
+                elif str(val) == "d":
+                    selitem += 10
+                elif str(val) == "u":
+                    selitem -= 10
+                elif str(val) == "h":
+                    fuo_ask(sock, "previous")
+                elif str(val) == "l":
+                    fuo_ask(sock, "next")
+                elif str(val) == "c":
+                    selitem = sync_current_song(False, uri_list, re.findall("fuo\S*", fuo_ask(sock, "status"))[0])
+                elif str(val) == "a":
+                    add_list = True
+                elif val.name == "KEY_ENTER":
+                    fuo_ask(sock, "play " + uri_list[selitem])
+                print(term.move(0, 0) + term.clear_eol())
+        if add_list:
+            with term.location(5, 20):
+                furi = input(term.clear_eol + "Adding new song [fuo://netease/playlists/71776406] > ")
+                furi = "fuo://netease/playlists/71776406" if not furi else furi
+                print(term.clear_bol)
+                fuo_ask(sock, "add " + furi)
+            add_list = False
+if fuo_handler:
+    fuo_handler.terminate()

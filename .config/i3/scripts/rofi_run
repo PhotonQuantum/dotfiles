@@ -1,0 +1,2 @@
+#!/bin/sh
+rofi -modi drun -show drun -lines 3 -eh 2 -width 100 -padding 200 -opacity "85" -bw 0 -color-window "#2f343f, #2f343f, #2f343f" -color-normal "#2f343f, #f3f4f5, #2f343f, #2f343f,#9575cd" -font "Source Code Pro 16"

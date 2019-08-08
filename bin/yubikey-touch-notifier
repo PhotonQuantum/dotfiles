@@ -1,0 +1,21 @@
+#!/bin/bash
+# file: yubikey-touch-notify
+# date: 2019-03-09
+# license: GPLv3 https://www.gnu.org/licenses/gpl-3.0.txt
+# author: nanpuyue <nanpuyue@gmail.com> https://blog.nanpuyue.com
+# refer: https://github.com/maximbaz/yubikey-touch-detector
+
+SOCKET="$XDG_RUNTIME_DIR/yubikey-touch-detector.socket"
+NOTIFY_ICON="dialog-information"
+sleep 5
+while read -n5 event; do
+    case "$event" in
+        GPG_1|U2F_1)
+            notify-send -i "$NOTIFY_ICON" "Please touch the YubiKey (${event%_*})."
+            ;;
+        GPG_0|U2F_0)
+            # TODO
+            :
+            ;;
+    esac
+done < <(socat unix-connect:"$SOCKET" stdout)

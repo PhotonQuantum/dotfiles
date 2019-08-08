@@ -1,0 +1,108 @@
+# [[plugins]]
+# repo = 
+# rev = 
+# build = 
+# rtp = 
+# if = 
+# depends = 
+# frozen = 
+# 
+# on_func = <string, list>
+# on_path = ".*" <string>
+# on_source = <string, list>
+# on_event = ["InsertEnter", "FocusLost", "CursorHold"] <list>
+# on_ft = <string, list>
+# on_cmd = <string, list>
+# on_map = {"n": "<Plug>"} ["<Plug>(anzu"] <dict, list, string>
+
+[[plugins]]
+repo = 'wsdjeg/dein-ui.vim'
+on_cmd = 'DeinUpdate'
+
+[[plugins]]
+repo = 'vim-jp/syntax-vim-ex'
+on_ft = 'vim'
+
+[[plugins]]
+repo = 'tmhedberg/SimpylFold'
+on_ft = 'python'
+
+[[plugins]]
+repo = 'neoclide/coc-neco'
+on_ft = 'vim'
+
+[[plugins]]
+repo = 'roxma/nvim-yarp'
+on_source = 'neco-vim'
+
+[[plugins]]
+repo = 'Shougo/neco-vim'
+on_ft = 'vim'
+
+[[plugins]]
+repo = 'numirias/semshi'
+on_ft = 'python'
+hook_add = '''
+autocmd FileType python call SemshiHl()
+let g:semshi#error_sign = v:false
+'''
+
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+on_map = '<Plug>(easymotion'
+hook_add = 'let g:EasyMotion_startofline = 0'
+
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+on_ft = ['python', 'vim', 'json']
+hook_add = '''
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+'''
+
+[[plugins]]
+repo = 'dyng/ctrlsf.vim'
+on_map = '<Plug>CtrlSFPrompt'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+on_map = ['ys', 'ds', 'cs']
+
+[[plugins]]
+repo = 'PhotonQuantum/vim-ctrlspace'
+on_plug = '<Plug>CtrlSpace'
+hook_add = '''
+let g:CtrlSpaceSetDefaultMapping = 0
+let g:CtrlSpaceSymbols = { "All": "", "CS": "" }
+let g:CtrlSpaceGlobCommand = 'ag -f -l --nocolor -g ""'
+let g:CtrlSpaceSearchTiming = 50
+let g:CtrlSpaceFileEngine = 'file_engine_linux_amd64'
+'''
+
+[[plugins]]
+repo = 'okcompute/vim-python-match'
+on_ft = 'python'
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'haya14busa/vim-edgemotion'
+on_map = '<Plug>(edgemotion'
+
+[[plugins]]
+repo = 'jeetsukumaran/vim-pythonsense'
+on_ft = 'python'
+
+[[plugins]]
+repo = 'Alexmac22347/vim-orgmode'
+on_ft = 'org'
+hook_add = '''
+let g:org_agenda_files = ['~/Dropbox/org/Technology.org', '~/Dropbox/org/Inbox.org']
+'''
+
+[[plugins]]
+repo = 'idanarye/vim-vebugger'
+on_ft = 'python'
