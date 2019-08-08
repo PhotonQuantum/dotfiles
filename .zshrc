@@ -187,3 +187,6 @@ lfcd () {
         fi
     fi
 }
+
+alias lvm-apply="sudo lvremove vgArch/snap-root"
+alias lvm-revert="sudo lvconvert --merge vgArch/snap-root && echo \"Reboot required\""
