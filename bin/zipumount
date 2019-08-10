@@ -23,7 +23,8 @@ def is_fuse_zip(mounts, fp):
 def umount(fp):
     subprocess.run(["umount", fp])
     if os.path.ismount(fp):
-        return f"Failed to umount {fp}"
+        lsof = subprocess.run(["lsof", os.path.abspath(fp)], capture_output=True).stdout.decode()
+        return f"Failed to umount {fp}\n{lsof}"
     else:
         os.rmdir(fp)
         return f"OK {fp} umounted."
