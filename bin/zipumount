@@ -1,0 +1,39 @@
+#!/bin/python
+import os
+import subprocess
+from toolz import curry
+from toolz import pipe
+from toolz.curried import filter
+
+
+def is_type_fuse_zip(line):
+    return line.split()[0] == "fuse-zip"
+
+
+@curry
+def is_path_in_mounts(fp, mounts):
+    return os.path.abspath(fp) in mounts
+
+
+@curry
+def is_fuse_zip(mounts, fp):
+    return pipe(mounts, filter(is_path_in_mounts(fp)), filter(is_type_fuse_zip))
+
+
+def umount(fp):
+    subprocess.run(["umount", fp])
+    if os.path.ismount(fp):
+        return f"Failed to umount {fp}"
+    else:
+        os.rmdir(fp)
+        return f"OK {fp} umounted."
+
+
+def get_mounts():
+    return open("/proc/self/mounts", mode="r").read().split("\n")
+
+
+cwd = os.getcwd()
+
+print(*map(umount, pipe(os.listdir(cwd), filter(os.path.ismount),
+                        filter(is_fuse_zip(get_mounts())))), sep="\n")

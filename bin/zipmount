@@ -1,0 +1,23 @@
+#!/bin/python
+import os
+import sys
+import random
+import magic
+import subprocess
+
+
+fp = sys.argv[1]
+fn = os.path.splitext(os.path.basename(fp))[0]
+fd = os.path.dirname(fp)
+if not os.path.isfile(fp):
+    print("File not found.")
+elif magic.from_file(fp, mime=True) != "application/zip":
+    print("Not a valid zip file.")
+else:
+    while True:
+        unpack_path = os.path.join(
+            fd, f"{fn}-Unpack{random.randint(1000,9999)}")
+        if not os.path.exists(unpack_path):
+            break
+    os.mkdir(unpack_path)
+    subprocess.run(["fuse-zip", "-r", fp, unpack_path])
