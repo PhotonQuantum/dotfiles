@@ -209,6 +209,9 @@ for_window [class="^cv$"] floating enable
 # dunst
 exec --no-startup-id dunst
 
+# Clipster
+exec --no-startup-id clipster -d &
+
 # Chromium
 exec --no-startup-id chromium
 
