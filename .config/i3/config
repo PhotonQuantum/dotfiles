@@ -7,7 +7,7 @@
 
 
 # Wallpaper
-exec_always --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/wall.png
+exec_always --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/kuro_waifu2x.png
 
 # i3 config file (v4)
 #
@@ -211,6 +211,7 @@ exec --no-startup-id dunst
 
 # Clipster
 exec --no-startup-id clipster -d &
+bindsym Mod1+c exec clipster -s -c
 
 # Chromium
 exec --no-startup-id chromium
@@ -267,3 +268,6 @@ exec --no-startup-id unclutter &
 
 # No suspend
 exec_always --no-startup-id xset dpms 0 0 1200
+
+# Optimus Manager QT
+exec --no-startup-id optimus-manager-qt &
