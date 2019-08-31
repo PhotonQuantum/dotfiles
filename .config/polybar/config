@@ -61,7 +61,7 @@ font-4 = Material Icons:style=Regular;pixelsize=10;4
 font-5 = Sarasa Gothic SC:style=Regular:pixelsize=10;2
 
 modules-left = i3 
-modules-right = fuo-lyric kbstat linkspeed cpu memory
+modules-right = fuo-lyric kbstat rixcloud linkspeed cpu memory
 
 tray-position = right
 tray-maxsize = 50
@@ -115,7 +115,7 @@ font-4 = Material Icons:style=Regular;pixelsize=10;4
 font-5 = Sarasa Gothic SC:style=Regular:pixelsize=10;2
 
 modules-left = xwindow 
-modules-right = backlight-acpi pulseaudio wlan eth battery date
+modules-right = caiyun backlight-acpi pulseaudio wlan eth battery date
 
 ;tray-position = right
 ;tray-padding = 2
@@ -508,6 +508,17 @@ type = custom/script
 exec = ~/.config/polybar/scripts/fuo-lyric.sh
 tail = true
 
+[module/caiyun]
+type = custom/script
+exec = curl https://weather.lightquantum.xyz/forecast -s
+interval = 90
+
+[module/rixcloud]
+type = custom/script
+exec = ~/.config/polybar/scripts/rixcloud-traffic.py
+format =  <label>
+interval = 600
+
 [settings]
 screenchange-reload = true
 ;compositing-background = xor
@@ -523,10 +534,11 @@ margin-bottom = 5
 type = custom/script
 exec = awk '{print $1*10^-6 " W"}' /sys/class/power_supply/BAT0/power_now
 format =  <label>
-; vim:ft=dosini
 
 [module/kbstat]
 type = custom/script
 exec = xinput list-props "AT Translated Set 2 keyboard" | grep "Device Enabled" | grep -o "[01]$"
 click-left = bash -c '[ $( xinput list-props "AT Translated Set 2 keyboard" | grep "Device Enabled" | grep -o "[01]$" ) = 0 ] && xinput enable "AT Translated Set 2 keyboard" || xinput disable "AT Translated Set 2 keyboard"'
 format =  <label>
+
+; vim:ft=dosini
