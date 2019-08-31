@@ -11,3 +11,4 @@ bin/upclash
 bin/zx300
 bin/moondrop
 bin/touchpad
+.config/polybar/scripts/rixcloud-traffic.py
