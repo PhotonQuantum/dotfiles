@@ -1,0 +1,43 @@
+#!/bin/python
+import configparser
+import os
+import sys
+import subprocess
+import time
+
+def main():
+    if not os.environ.get("SUDO_UID"):
+        print("Sudo needed!")
+        return
+    device_name = "enp0s20f0u4"
+
+    conf = configparser.ConfigParser()
+
+    conf.add_section("Match")
+    conf.add_section("Network")
+
+    cidr = sum(bin(int(x)).count('1') for x in sys.argv[4].split('.'))
+    conf.set("Match", "Name", device_name)
+    conf.set("Network", "Address", f"{sys.argv[2]}/{cidr}")
+    conf.set("Network", "Gateway", sys.argv[3])
+    conf.set("Network", "DNS", "202.120.2.101")
+
+    with open("/etc/systemd/network/30-nimo.network", mode="w") as f:
+        conf.write(f)
+
+    print("Updating mac")
+    subprocess.run(["sudo", "ip", "link", "set", "dev", device_name, "down"])
+    subprocess.run(["sudo", "ip", "link", "set", device_name, "address", sys.argv[1].replace("-", ":")])
+    subprocess.run(["sudo", "ip", "link", "set", "dev", device_name, "up"])
+
+    print("Restarting systemd-networkd")
+    subprocess.run(["sudo", "systemctl", "restart", "systemd-networkd"])
+
+    print("Waiting for device")
+    while subprocess.run(["ip", "link", "show", "dev", device_name]).returncode != 0:
+        time.sleep(0.1)
+
+    return
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo efibootmgr -n $(sudo efibootmgr | grep Windows | head -c8 | tail -c4)
+sudo poweroff
