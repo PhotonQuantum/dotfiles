@@ -12,6 +12,7 @@ def main():
     device_name = "enp0s20f0u4"
 
     conf = configparser.ConfigParser()
+    conf.optionxform=str
 
     conf.add_section("Match")
     conf.add_section("Network")
