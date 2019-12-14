@@ -1,10 +1,14 @@
 __build_info:
   rime_version: 1.5.3
   timestamps:
-    default: 1526362370
-    default.custom: 1570630856
+    default: 1573977633
+    default.custom: 1572797419
     flypy.custom: 0
-    flypy.schema: 1570630869
+    flypy.schema: 1574352503
+    key_bindings: 1573977633
+    key_bindings.custom: 0
+    punctuation: 1573977633
+    punctuation.custom: 0
 custom_phraseVD:
   db_class: stabledb
   dictionary: ""
@@ -98,12 +102,12 @@ key_binder:
     - {accept: comma, send: comma, when: paging}
     - {accept: period, send: period, when: has_menu}
     - {accept: semicolon, send: 2, when: has_menu}
+    - {accept: "Release+period", send: period, when: composing}
     - {accept: dollar, send: 2, when: composing}
     - {accept: "Release+dollar", send: period, when: composing}
-    - {accept: "Release+period", send: period, when: composing}
+    - {accept: "Release+comma", send: comma, when: composing}
     - {accept: bar, send: 2, when: composing}
     - {accept: "Release+bar", send: comma, when: composing}
-    - {accept: "Release+comma", send: comma, when: composing}
     - {accept: Tab, send: Escape, when: composing}
     - {accept: Caps_Lock, send: Escape, when: composing}
     - {accept: Shift_R, send: Escape, when: composing}

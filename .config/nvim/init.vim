@@ -222,6 +222,9 @@ command DeinClean :call map(dein#check_clean(), "delete(v:val, 'rf')")
 " CtrlSpace {{{
 nmap <silent> <Leader>p :CtrlSpace<CR>
 " }}}
+" Code Run {{{
+autocmd filetype cpp nnoremap <Leader>r :w <bar> exec '!clang++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+" }}}
 " }}}
 
 " IME {{{

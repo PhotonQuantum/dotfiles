@@ -1,0 +1,2 @@
+#/bin/sh
+echo -e "connect F8:DF:15:8B:42:47"|bluetoothctl

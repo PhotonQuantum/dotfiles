@@ -41,3 +41,6 @@ repo = 'tpope/vim-repeat'
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'jiangmiao/auto-pairs'

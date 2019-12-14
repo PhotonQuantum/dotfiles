@@ -1,0 +1,2 @@
+#/bin/sh
+echo -e "connect 8C:57:9B:D6:66:F1"|bluetoothctl

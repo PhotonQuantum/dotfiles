@@ -1,10 +1,10 @@
 [global]
     monitor = 0
     follow = mouse
-    geometry = "720x5-50+15"
+    geometry = "600x5-50+75"
     indicate_hidden = yes
     shrink = no
-    transparency = 0
+    transparency = 25 
     notification_height = 0
     separator_height = 2
     padding = 20

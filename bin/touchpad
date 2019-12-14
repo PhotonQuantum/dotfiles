@@ -1,0 +1,3 @@
+#!/bin/bash
+
+xinput $1 "DELL0922:00 04F3:30E3 Touchpad"

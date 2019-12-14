@@ -77,6 +77,10 @@ plugins=(
   pip
   systemd
   zsh-syntax-highlighting
+  colored-man-pages
+  git-extras
+  github
+  git-remote-branch
   # vi-mode
 )
 
@@ -190,3 +194,7 @@ lfcd () {
 
 alias lvm-apply="sudo lvremove vgArch/snap-root"
 alias lvm-revert="sudo lvconvert --merge vgArch/snap-root && echo \"Reboot required\""
+
+unalias gl
+
+alias please="sudo"

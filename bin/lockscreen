@@ -2,4 +2,4 @@
 # sudo yapm cool > /dev/null
 # boincmode auto
 # boinccpu 100.0 100.0
-betterlockscreen -l blur
+betterlockscreen -l blur -t "Insert Yubikey to unlock."

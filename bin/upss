@@ -1,0 +1,41 @@
+#!/usr/bin/python
+import requests
+import base64
+import json
+from urllib.parse import parse_qs
+
+# subscribe_url = "https://api.rixcloud.io/v1/common/service/10701/subscribe/ssr?auth=de913d018bf84c6c3ee5823ae8e4080d"
+subscribe_url = "https://api.rixcloud.io/v2/common/service/10701/subscribe/ssr?auth=de913d018bf84c6c3ee5823ae8e4080d"
+local_port = 1080
+config_path = "/etc/shadowsocks/config.json"
+r = requests.get(subscribe_url)
+ssr_links = base64.b64decode(r.text + "======").decode().split('\n')
+for i in range(1, len(ssr_links)):
+    ssurl = base64.urlsafe_b64decode(ssr_links[i-1][6:] + "======").decode()
+    server_info = ssurl[:ssurl.find('/')].split(':')
+    extra_params = parse_qs(ssurl[ssurl.find('/')+2:], keep_blank_values=True)
+    print(str(i) + " - " + base64.urlsafe_b64decode(extra_params['remarks'][0] + "======").decode())
+try:
+    server_index = int(input("Choose a server [1-" + str(len(ssr_links)-1) + "]:"))
+except ValueError:
+    print("Not a number")
+else:
+    if 1 <= server_index <= len(ssr_links)-1:
+        ssurl = base64.urlsafe_b64decode(ssr_links[server_index-1][6:] + "======").decode()
+        server_info = ssurl[:ssurl.find('/')].split(':')
+        extra_params = parse_qs(ssurl[ssurl.find('/')+2:], keep_blank_values=True)
+        conf = {}
+        conf['server'] = server_info[0]
+        conf['server_port'] = int(server_info[1])
+        conf['local_port'] = local_port
+        conf['password'] = base64.urlsafe_b64decode(server_info[5] + "======").decode()
+        conf['method'] = server_info[3]
+        # conf['protocol'] = server_info[2]
+        # conf['protocol_param'] = base64.urlsafe_b64decode(extra_params['protoparam'][0] + "======").decode()
+        # conf['obfs'] = server_info[4]
+        # conf['obfs_param'] = base64.urlsafe_b64decode(extra_params['obfsparam'][0] + "======").decode()
+        conf['fast_open'] = True
+        with open(config_path, 'w') as f:
+            f.write(json.dumps(conf))
+    else:
+        print("Invalid Input")

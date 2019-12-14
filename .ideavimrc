@@ -1,0 +1,12 @@
+set hlsearch
+set incsearch
+set smartcase
+set relativenumber
+inoremap <S-CR> <Esc>
+vnoremap <S-CR> <Esc>
+nmap H ^
+vmap H ^
+nmap L $
+vmap L $
+set ideajoin
+set clipboard+=unnamed

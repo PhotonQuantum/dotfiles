@@ -1,0 +1,21 @@
+#!/usr/bin/python
+from yaml import load, dump, Loader, Dumper
+import requests
+from pathlib import Path
+
+
+print("Downloading subscription...")
+subscription = requests.get("https://api.rixcloud.io/v2/common/service/10701/subscribe/clash?auth=de913d018bf84c6c3ee5823ae8e4080d").text
+print("Parsing configuration...")
+data = load(subscription, Loader=Loader)
+for proxy_group in data["Proxy Group"]:
+    if proxy_group["name"] == "rixCloud":
+        proxy_group["proxies"] = list(filter(lambda x: x[:3] == "香港 ", proxy_group["proxies"]))
+        proxy_group["type"] = "url-test"
+        proxy_group["url"] = "http://captive.rixcloud.io/generate_204"
+        proxy_group["interval"] = 300
+    elif proxy_group["name"] == "Apple Services":
+        proxy_group["proxies"] = ["rixCloud"]
+with open('%s/.config/clash/config.yml' % str(Path.home()), mode="w") as f:
+    dump(data, f, encoding="utf-8", allow_unicode=True, sort_keys=False)
+print("Complete!")
