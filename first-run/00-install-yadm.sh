@@ -13,6 +13,6 @@ yadm decrypt
 
 # Restore /etc /usr
 sudo chown root $(tty)
-GPG_TTY=$(tty) sudo --preserve-env=GPG_TTY yadm -Y /etc/yadm clone -w /etc https://github.com/PhotonQuantum/etcfiles
-GPG_TTY=$(tty) sudo --preserve-env=GPG_TTY yadm -Y /etc/yadm clone -w /usr https://github.com/PhotonQuantum/usrfiles
+GPG_TTY=$(tty) sudo --preserve-env=GPG_TTY yadm -Y /etc/yadm clone -w /etc git@github.com:PhotonQuantum/etcfiles
+GPG_TTY=$(tty) sudo --preserve-env=GPG_TTY yadm -Y /etc/yadm clone -w /usr git@github.com:PhotonQuantum/usrfiles
 sudo chown lightquantum $(tty)
